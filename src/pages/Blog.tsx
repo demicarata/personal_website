@@ -22,15 +22,15 @@ export default function Blog() {
                     <Link
                         to={`/project/${article.id}`}
                         key={article.id}
-                        className="border rounded-lg p-4 shadow-lg hover:shadow-2xl transition duration-300"
+                        className="border p-4 shadow-lg hover:border-amber-500 transition duration-100"
                     >
                         <img
                             src={article.image}
                             alt={article.title}
-                            className="w-full h-48 object-cover rounded-md"
+                            className="w-full h-48 object-cover"
                         />
                         <h2 className="text-xl font-semibold mt-4">{article.title}</h2>
-                        <p className="text-gray-600">{article.description}</p>
+                        <p className="text-gray-400">{article.description}</p>
                         <p className="text-sm text-gray-500 mt-2">
                             Added on: {article.createdAt}
                         </p>

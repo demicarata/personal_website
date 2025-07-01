@@ -6,7 +6,7 @@ const articles = [
         title: "My first blog post",
         createdAt: "2021-01-01",
         content: "This is my first blog post. I'm so excited to share my thoughts with you.",
-        image: "https://via.placeholder.com/600",
+        image: '/assets/garf.jpg',
         description: "This is a description of my first blog post.",
     }
 ];
@@ -20,7 +20,7 @@ export default function ArticleDetail() {
     const article = articles.find((a) => a.id === parseInt(id));
 
     if (!article) {
-        return <div>Project not found</div>;
+        return <div>Article not found</div>;
     }
 
     return (

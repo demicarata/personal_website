@@ -1,9 +1,10 @@
 import {BrowserRouter as Router, Routes, Route, Link, useLocation} from "react-router-dom";
-import About from "../../portfolio-1/src/pages/About.tsx";
-import Projects from "../../portfolio-1/src/pages/Projects";
-import Blog from "../../portfolio-1/src/pages/Blog";
-import Contact from "../../portfolio-1/src/pages/Contact";
+import About from "./pages/About.tsx";
+import Projects from "./pages/Projects.tsx";
+import Blog from "./pages/Blog.tsx";
+import Contact from "./pages/Contact.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
+import Resources from "./pages/Resources.tsx";
 
 interface NavLinkProps {
     to: string;
@@ -38,10 +39,11 @@ export default function App() {
     return (
         <Router>
             <div className="min-h-screen bg-indigo-950 text-amber-100 relative">
-                <nav className="w-60 h-screen p-4 bg-indigo-950 shadow-md flex flex-col gap-4 fixed top-32 left-16">
+                <nav className="w-60 h-screen p-4 bg-indigo-950 flex flex-col gap-4 fixed top-32 left-16">
                     <NavLink to="/" label="About" />
                     <NavLink to="/projects" label="Projects" />
                     <NavLink to="/blog" label="Blog" />
+                    <NavLink to="/resources" label="Resources" />
                     <NavLink to="/contact" label="Contact" />
                 </nav>
 
@@ -51,6 +53,7 @@ export default function App() {
                         <Route path="/projects" element={<Projects />} />
                         <Route path="/blog" element={<Blog />} />
                         <Route path="/contact" element={<Contact />} />
+                        <Route path="/resources" element={<Resources />} />
                         <Route path="/project/:id" element={<ProjectDetail />} />
                     </Routes>
                 </div>

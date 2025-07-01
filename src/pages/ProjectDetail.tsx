@@ -7,13 +7,6 @@ const projects = [
         description: "This is a detailed description of project one.",
         image: "https://via.placeholder.com/600",
     },
-    {
-        id: 2,
-        title: "Project Two",
-        description: "This is a detailed description of project two.",
-        image: "https://via.placeholder.com/600",
-    },
-    // Add more projects here
 ];
 
 export default function ProjectDetail() {

@@ -1,17 +1,25 @@
-import { GraduationCap, BookOpen, School } from "lucide-react";
+import { GraduationCap} from "lucide-react";
+import { BsCpuFill, BsEthernet } from "react-icons/bs";
+import { IoNewspaper } from "react-icons/io5";
 
 const cvItems = [
     {
-        icon: <School className="text-amber-300 w-6 h-6" />,
-        title: "M.Sc. in ___",
-        institution: "University of ---",
-        year: "2025 - ???",
+        icon: <BsEthernet className="text-amber-300 w-6 h-6" />,
+        title: "M.Sc. in Security and Network Engineering",
+        institution: "University of Amsterdam",
+        year: "2025 - 2026",
     },
     {
-        icon: <BookOpen className="text-amber-300 w-6 h-6" />,
+        icon: <IoNewspaper className="text-amber-300 w-6 h-6" />,
+        title: "Minor in Journalism and New Media",
+        institution: "University of Leiden",
+        year: "September 2023 - January 2024",
+    },
+    {
+        icon: <BsCpuFill className="text-amber-300 w-6 h-6" />,
         title: "B.Sc. in Computer Science and Engineering",
-        institution: "Delft Technological University",
-        year: "2021 – 2025",
+        institution: "Delft University of Technology",
+        year: "2021 – 2025, Systems Track",
     },
     {
         icon: <GraduationCap className="text-amber-300 w-6 h-6" />,
@@ -25,15 +33,15 @@ export default function About() {
     return (
         <div className="object-center">
             <h1 className="text-4xl font-semibold">About</h1>
-            <p className="mt-4">
-               Hi, I'm Demi. I'm a Computer Science and Engineering student at TU Delft. I'm passionate about cybersecurity.
+            <p className="mt-8">
+               Hi, I'm Demi, a Security and Network Engineering student in Amsterdam. When it comes to technology, my interests include computer forensics, network security, OSINT and open source technologies. In my free time I am also an avid reader, a guitar and bass player and a basketball enjoyer. 
             </p>
 
-            <p className="mt-4 font-semibold">
+            <h2 className="text-2xl mt-8 font-semibold">
                 Education
-            </p>
+            </h2>
 
-            <div className="relative pl-10">
+            <div className="relative pl-10 mt-4">
                 {/* vertical line */}
                 <div className="absolute left-3 top-0 bottom-0 w-0.5 bg-amber-400" />
                 {cvItems.map((item, index) => (
