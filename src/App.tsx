@@ -4,7 +4,9 @@ import Projects from "./pages/Projects.tsx";
 import Blog from "./pages/Blog.tsx";
 import Contact from "./pages/Contact.tsx";
 import ProjectDetail from "./pages/ProjectDetail.tsx";
+import ArticleDetail from "./pages/ArticleDetail.tsx";
 import Resources from "./pages/Resources.tsx";
+import Admin from "./pages/Admin.tsx";
 
 interface NavLinkProps {
     to: string;
@@ -55,6 +57,8 @@ export default function App() {
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/resources" element={<Resources />} />
                         <Route path="/project/:id" element={<ProjectDetail />} />
+                        <Route path="/article/:id" element={<ArticleDetail />} />
+                        <Route path="/admin" element={<Admin />} />
                     </Routes>
                 </div>
             </div>

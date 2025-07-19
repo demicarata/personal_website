@@ -4,6 +4,8 @@ import { Request, Response } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { Article } from "./models/Article";
+import { Project } from "./models/Project";
 dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI as string;
@@ -14,73 +16,114 @@ mongoose.connect(MONGO_URI)
 
 
 const app = express();
-//app.use(cors());
+app.use(cors());
 app.use(express.json());
 
-const projects = [
-  {
-    id: 1,
-    title: "Project One",
-    description: "This is a description of project one.",
-    image: "https://via.placeholder.com/300",
-    createdAt: "2021-09-01",
-  },
-  {
-    id: 2,
-    title: "Project Two",
-    description: "This is a description of project two.",
-    image: "https://via.placeholder.com/300",
-    createdAt: "2021-09-01",
-  },
-];
-
-const articles = [
-  {
-    id: 1,
-    title: "My first blog post",
-    createdAt: "2021-01-01",
-    content: "This is my first blog post.",
-    image: "/assets/garf.jpg",
-    description: "This is a description of my first blog post.",
-  },
-];
-
 // All projects
-app.get("/api/projects", (_req, res) => {
-  res.json(projects);
+app.get("/api/projects", async (_req, res) => {
+  try {
+    const projects = await Project.find().sort({ createdAt: -1 });
+    res.json(projects);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: "Failed to fetch projects" });
+  }
 });
 
 // Project by ID
-const getProjectById: RequestHandler<{ id: string }> = (req, res) => {
-  const id = Number(req.params.id);
-  const project = projects.find((p) => p.id === id);
-  if (!project) {
-    res.status(404).json({ error: "Project not found" });
-    return;
+const getProjectById: RequestHandler<{ id: string }> = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) {
+      res.status(404).json({ error: "Project not found" });
+      return;
+    }
+    res.json(project);
+  } catch (error) {
+    console.error("Error fetching project:", error);
+    res.status(500).json({ error: "Failed to fetch project" });
   }
-  res.json(project);
 };
 
 app.get("/api/projects/:id", getProjectById);
 
+// Create new project
+app.post("/api/projects", async (req, res) => {
+  try {
+    const { title, description, content, image } = req.body;
+    
+    if (!title || !description || !content) {
+      res.status(400).json({ error: "Title, description, and content are required" });
+      return;
+    }
+
+    const project = new Project({
+      title,
+      description,
+      content,
+      image: image || "" // Make image optional
+    });
+
+    const savedProject = await project.save();
+    res.status(201).json(savedProject);
+  } catch (error) {
+    console.error("Error creating project:", error);
+    res.status(500).json({ error: "Failed to create project" });
+  }
+});
+
 // All articles
-app.get("/api/articles", (_req, res) => {
-  res.json(articles);
+app.get("/api/articles", async (_req, res) => {
+  try {
+    const articles = await Article.find().sort({ createdAt: -1 });
+    res.json(articles);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+    res.status(500).json({ error: "Failed to fetch articles" });
+  }
 });
 
 // Article by ID
-// Using this request handler Frankestein monster because everything else failed
-const getArticleById: RequestHandler<{ id: string }> = (req, res) => {
-  const id = Number(req.params.id);
-  const article = articles.find((a) => a.id === id);
-  if (!article) {
-    res.status(404).json({ error: "Article not found" });
-    return;
+const getArticleById: RequestHandler<{ id: string }> = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      res.status(404).json({ error: "Article not found" });
+      return;
+    }
+    res.json(article);
+  } catch (error) {
+    console.error("Error fetching article:", error);
+    res.status(500).json({ error: "Failed to fetch article" });
   }
-  res.json(article);
 };
 
 app.get("/api/articles/:id", getArticleById);
+
+// Create new article
+app.post("/api/articles", async (req, res) => {
+  try {
+    const { title, description, content, image } = req.body;
+    
+    if (!title || !description || !content) {
+      res.status(400).json({ error: "Title, description, and content are required" });
+      return;
+    }
+
+    const article = new Article({
+      title,
+      description,
+      content,
+      image: image || "" // Make image optional
+    });
+
+    const savedArticle = await article.save();
+    res.status(201).json(savedArticle);
+  } catch (error) {
+    console.error("Error creating article:", error);
+    res.status(500).json({ error: "Failed to create article" });
+  }
+});
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
