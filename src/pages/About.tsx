@@ -37,6 +37,18 @@ export default function About() {
                Hi, I'm Demi, a Security and Network Engineering student in Amsterdam. When it comes to technology, my interests include computer forensics, network security, OSINT and open source technologies. In my free time I am also an avid reader, a guitar and bass player and a basketball enjoyer. 
             </p>
 
+            <p className="mt-4">
+                This website is a project in which I try to structure my work and ideas in a way that potentially is understandable by others.
+            </p>
+            <h2 className="text-2xl mt-8 font-semibold">
+                Experience
+            </h2>
+            <ul className="list-disc ml-6 mt-2">
+                <li className="text-gray-300">
+                    Unemployed @ NOT A JOB (birth - 4ever)
+                </li>
+            </ul>
+
             <h2 className="text-2xl mt-8 font-semibold">
                 Education
             </h2>

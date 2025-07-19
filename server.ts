@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { Article } from "./models/Article";
 import { Project } from "./models/Project";
+import { Resource } from "./models/Resource";
 dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI as string;
@@ -122,6 +123,57 @@ app.post("/api/articles", async (req, res) => {
   } catch (error) {
     console.error("Error creating article:", error);
     res.status(500).json({ error: "Failed to create article" });
+  }
+});
+
+// All resources
+app.get("/api/resources", async (_req, res) => {
+  try {
+    const resources = await Resource.find().sort({ createdAt: -1 });
+    res.json(resources);
+  } catch (error) {
+    console.error("Error fetching resources:", error);
+    res.status(500).json({ error: "Failed to fetch resources" });
+  }
+});
+
+// Resource by ID
+const getResourceById: RequestHandler<{ id: string }> = async (req, res) => {
+  try {
+    const resource = await Resource.findById(req.params.id);
+    if (!resource) {
+      res.status(404).json({ error: "Resource not found" });
+      return;
+    }
+    res.json(resource);
+  } catch (error) {
+    console.error("Error fetching resource:", error);
+    res.status(500).json({ error: "Failed to fetch resource" });
+  }
+};
+
+app.get("/api/resources/:id", getResourceById);
+
+// Create new resource
+app.post("/api/resources", async (req, res) => {
+  try {
+    const { title, link } = req.body;
+    
+    if (!title || !link) {
+      res.status(400).json({ error: "Title and link are required" });
+      return;
+    }
+
+    const resource = new Resource({
+      title,
+      link
+    });
+
+    const savedResource = await resource.save();
+    res.status(201).json(savedResource);
+  } catch (error) {
+    console.error("Error creating resource:", error);
+    res.status(500).json({ error: "Failed to create resource" });
   }
 });
 

@@ -65,14 +65,14 @@ export default function Projects() {
                         className="border p-4 shadow-lg hover:border-amber-400 transition duration-100"
                     >
                         <img
-                            src={project.image}
+                            src={project.image || "./assets/garf.jpg"}
                             alt={project.title}
-                            className="w-full h-48 object-cover rounded-md"
+                            className="w-full h-48 object-cover"
                         />
                         <h2 className="text-xl font-semibold mt-4">{project.title}</h2>
                         <p className="text-gray-400">{project.description}</p>
                         <p className="text-sm text-gray-500 mt-2">
-                            Added on: {project.createdAt}
+                            Added on: {new Date(project.createdAt).toLocaleDateString('en-GB')}
                         </p>
                     </Link>
                 ))}

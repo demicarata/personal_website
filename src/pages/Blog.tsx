@@ -73,7 +73,7 @@ export default function Blog() {
                         <h2 className="text-xl font-semibold mt-4">{article.title}</h2>
                         <p className="text-gray-400">{article.description}</p>
                         <p className="text-sm text-gray-500 mt-2">
-                            Added on: {new Date(article.createdAt).toLocaleDateString()}
+                            Added on: {new Date(article.createdAt).toLocaleDateString('en-GB')}
                         </p>
                     </Link>
                 ))}

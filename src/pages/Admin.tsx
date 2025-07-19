@@ -7,7 +7,12 @@ interface ContentForm {
     image: string;
 }
 
-type ContentType = 'article' | 'project';
+interface ResourceForm {
+    title: string;
+    link: string;
+}
+
+type ContentType = 'article' | 'project' | 'resource';
 
 export default function Admin() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -20,6 +25,10 @@ export default function Admin() {
         description: "",
         content: "",
         image: ""
+    });
+    const [resourceData, setResourceData] = useState<ResourceForm>({
+        title: "",
+        link: ""
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -38,21 +47,32 @@ export default function Admin() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        if (contentType === 'resource') {
+            setResourceData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
     };
 
     const handleContentTypeChange = (type: ContentType) => {
         setContentType(type);
         setMessage(null);
-        // Reset form when switching types
+        // Reset forms when switching types
         setFormData({
             title: "",
             description: "",
             content: "",
             image: ""
+        });
+        setResourceData({
+            title: "",
+            link: ""
         });
     };
 
@@ -62,13 +82,23 @@ export default function Admin() {
         setMessage(null);
 
         try {
-            const endpoint = contentType === 'article' ? '/api/articles' : '/api/projects';
+            let endpoint = '';
+            let submitData = {};
+
+            if (contentType === 'resource') {
+                endpoint = '/api/resources';
+                submitData = resourceData;
+            } else {
+                endpoint = contentType === 'article' ? '/api/articles' : '/api/projects';
+                submitData = formData;
+            }
+
             const response = await fetch(`http://localhost:4000${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(submitData)
             });
 
             if (!response.ok) {
@@ -78,12 +108,16 @@ export default function Admin() {
             const newContent = await response.json();
             setMessage({ text: `${contentType.charAt(0).toUpperCase() + contentType.slice(1)} "${newContent.title}" created successfully!`, type: 'success' });
             
-            // Reset form
+            // Reset forms
             setFormData({
                 title: "",
                 description: "",
                 content: "",
                 image: ""
+            });
+            setResourceData({
+                title: "",
+                link: ""
             });
         } catch (error) {
             setMessage({ 
@@ -183,6 +217,16 @@ export default function Admin() {
                     >
                         Add Project
                     </button>
+                    <button
+                        onClick={() => handleContentTypeChange('resource')}
+                        className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                            contentType === 'resource'
+                                ? 'bg-amber-600 text-white'
+                                : 'text-gray-400 hover:text-white'
+                        }`}
+                    >
+                        Add Resource
+                    </button>
                 </div>
             </div>
 
@@ -210,7 +254,7 @@ export default function Admin() {
                             type="text"
                             id="title"
                             name="title"
-                            value={formData.title}
+                            value={contentType === 'resource' ? resourceData.title : formData.title}
                             onChange={handleInputChange}
                             required
                             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
@@ -218,52 +262,72 @@ export default function Admin() {
                         />
                     </div>
 
-                    <div>
-                        <label htmlFor="description" className="block text-sm font-medium mb-2">
-                            Description
-                        </label>
-                        <textarea
-                            id="description"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                            required
-                            rows={3}
-                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
-                            placeholder={`Enter ${contentType} description`}
-                        />
-                    </div>
+                    {contentType === 'resource' ? (
+                        <div>
+                            <label htmlFor="link" className="block text-sm font-medium mb-2">
+                                Link
+                            </label>
+                            <input
+                                type="url"
+                                id="link"
+                                name="link"
+                                value={resourceData.link}
+                                onChange={handleInputChange}
+                                required
+                                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                placeholder="https://example.com/resource"
+                            />
+                        </div>
+                    ) : (
+                        <>
+                            <div>
+                                <label htmlFor="description" className="block text-sm font-medium mb-2">
+                                    Description
+                                </label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                    required
+                                    rows={3}
+                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
+                                    placeholder={`Enter ${contentType} description`}
+                                />
+                            </div>
 
-                    <div>
-                        <label htmlFor="image" className="block text-sm font-medium mb-2">
-                            Image URL (Optional)
-                        </label>
-                        <input
-                            type="url"
-                            id="image"
-                            name="image"
-                            value={formData.image}
-                            onChange={handleInputChange}
-                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
-                            placeholder="https://example.com/image.jpg"
-                        />
-                    </div>
+                            <div>
+                                <label htmlFor="image" className="block text-sm font-medium mb-2">
+                                    Image URL (Optional)
+                                </label>
+                                <input
+                                    type="url"
+                                    id="image"
+                                    name="image"
+                                    value={formData.image}
+                                    onChange={handleInputChange}
+                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                    placeholder="https://example.com/image.jpg"
+                                />
+                            </div>
 
-                    <div>
-                        <label htmlFor="content" className="block text-sm font-medium mb-2">
-                            Content
-                        </label>
-                        <textarea
-                            id="content"
-                            name="content"
-                            value={formData.content}
-                            onChange={handleInputChange}
-                            required
-                            rows={15}
-                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
-                            placeholder={`Enter the full ${contentType} content.`}
-                        />
-                    </div>
+                            <div>
+                                <label htmlFor="content" className="block text-sm font-medium mb-2">
+                                    Content
+                                </label>
+                                <textarea
+                                    id="content"
+                                    name="content"
+                                    value={formData.content}
+                                    onChange={handleInputChange}
+                                    required
+                                    rows={15}
+                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
+                                    placeholder={`Enter the full ${contentType} content.`}
+                                />
+                            </div>
+                        </>
+                    )}
 
                     <div className="pt-4">
                         <button
