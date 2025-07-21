@@ -10,6 +10,7 @@ interface ContentForm {
 interface ResourceForm {
     title: string;
     link: string;
+    type: 'article' | 'video' | 'book';
 }
 
 type ContentType = 'article' | 'project' | 'resource';
@@ -28,7 +29,8 @@ export default function Admin() {
     });
     const [resourceData, setResourceData] = useState<ResourceForm>({
         title: "",
-        link: ""
+        link: "",
+        type: "article"
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -72,7 +74,8 @@ export default function Admin() {
         });
         setResourceData({
             title: "",
-            link: ""
+            link: "",
+            type: "article"
         });
     };
 
@@ -117,7 +120,8 @@ export default function Admin() {
             });
             setResourceData({
                 title: "",
-                link: ""
+                link: "",
+                type: "article"
             });
         } catch (error) {
             setMessage({ 
@@ -133,19 +137,19 @@ export default function Admin() {
     if (!isAuthenticated) {
         return (
             <div className="max-w-md mx-auto mt-20">
-                <div className="bg-gray-800 rounded-lg p-8">
-                    <h1 className="text-3xl font-semibold mb-6 text-center">Admin Login</h1>
+                <div className="bg-amber-50 p-8">
+                    <h1 className="text-3xl font-semibold mb-6 text-center text-indigo-950">Admin Login</h1>
                     
                     {authError && (
-                        <div className="mb-4 p-3 rounded bg-red-600 text-red-100">
+                        <div className="mb-4 p-3 bg-red-600 text-red-100">
                             {authError}
                         </div>
                     )}
 
                     <form onSubmit={handleLogin}>
                         <div className="mb-4">
-                            <label htmlFor="password" className="block text-sm font-medium mb-2">
-                                Admin Password
+                            <label htmlFor="password" className="block text-sm font-medium mb-2 text-indigo-900">
+                                Get outta here
                             </label>
                             <input
                                 type="password"
@@ -153,13 +157,13 @@ export default function Admin() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                className="w-full px-3 py-2 bg-zinc-600 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100"
                                 placeholder="Enter admin password"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="w-full py-2 px-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-md transition-colors"
+                            className="w-full py-2 px-4 bg-amber-600 hover:bg-amber-700 text-white font-semibold transition-colors"
                         >
                             Login
                         </button>
@@ -168,7 +172,7 @@ export default function Admin() {
                     <div className="mt-6 text-center">
                         <button
                             onClick={() => window.location.href = '/'}
-                            className="text-gray-400 hover:text-white transition-colors"
+                            className="text-zinc-500 hover:text-indigo-900 transition-colors"
                         >
                             ← Back to Home
                         </button>
@@ -230,7 +234,7 @@ export default function Admin() {
                 </div>
             </div>
 
-            <div className="bg-gray-800 rounded-lg p-6">
+            <div className="bg-gray-800 p-6">
                 <h2 className="text-2xl font-semibold mb-6">
                     Add New {contentType.charAt(0).toUpperCase() + contentType.slice(1)}
                 </h2>
@@ -263,21 +267,40 @@ export default function Admin() {
                     </div>
 
                     {contentType === 'resource' ? (
-                        <div>
-                            <label htmlFor="link" className="block text-sm font-medium mb-2">
-                                Link
-                            </label>
-                            <input
-                                type="url"
-                                id="link"
-                                name="link"
-                                value={resourceData.link}
-                                onChange={handleInputChange}
-                                required
-                                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
-                                placeholder="https://example.com/resource"
-                            />
-                        </div>
+                        <>
+                            <div>
+                                <label htmlFor="link" className="block text-sm font-medium mb-2">
+                                    Link
+                                </label>
+                                <input
+                                    type="url"
+                                    id="link"
+                                    name="link"
+                                    value={resourceData.link}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                    placeholder="https://example.com/resource"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="type" className="block text-sm font-medium mb-2">
+                                    Resource Type
+                                </label>
+                                <select
+                                    id="type"
+                                    name="type"
+                                    value={resourceData.type}
+                                    onChange={(e) => setResourceData(prev => ({ ...prev, type: e.target.value as 'article' | 'video' | 'book' }))}
+                                    required
+                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                >
+                                    <option value="article">Article</option>
+                                    <option value="video">Video</option>
+                                    <option value="book">Book</option>
+                                </select>
+                            </div>
+                        </>
                     ) : (
                         <>
                             <div>

@@ -1,6 +1,5 @@
 import express from "express";
 import { RequestHandler } from "express";
-import { Request, Response } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -157,7 +156,7 @@ app.get("/api/resources/:id", getResourceById);
 // Create new resource
 app.post("/api/resources", async (req, res) => {
   try {
-    const { title, link } = req.body;
+    const { title, link, type } = req.body;
     
     if (!title || !link) {
       res.status(400).json({ error: "Title and link are required" });
@@ -166,7 +165,8 @@ app.post("/api/resources", async (req, res) => {
 
     const resource = new Resource({
       title,
-      link
+      link,
+      type: type || 'article' // Default to 'article' if type is not provided
     });
 
     const savedResource = await resource.save();

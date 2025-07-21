@@ -4,6 +4,7 @@ interface Resource {
     _id: string;
     title: string;
     link: string;
+    type?: 'article' | 'video' | 'book';
     createdAt: string;
     updatedAt: string;
 }
@@ -53,26 +54,91 @@ export default function Resources() {
     return (
         <div>
             <h1 className="text-4xl font-semibold">Resources</h1>
-            <p> Links to a bunch of articles, videos or books that I found interesting. Related or unrelated to cybersecurity. </p>
+            <p>Links to a bunch of articles, videos or books that I found interesting. Related or unrelated to cybersecurity.</p>
 
-            <div className="mt-4 space-y-4">
+            <div className="mt-8 space-y-8">
                 {resources.length === 0 ? (
                     <p className="text-gray-400">No resources added yet.</p>
                 ) : (
-                    <ul className="list-disc pl-6">
-                        {resources.map((resource) => (
-                            <li key={resource._id}>
-                                <a
-                                    href={resource.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-amber-400 underline hover:text-amber-600"
-                                >
-                                    {resource.title}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                    <>
+                        {/* Articles Section */}
+                        {resources.filter(resource => resource.type === 'article' || !resource.type).length > 0 && (
+                            <div>
+                                <h2 className="text-2xl font-semibold mb-4 text-amber-200 flex items-center gap-2">
+                                    Articles
+                                </h2>
+                                <ul className="list-disc ml-6 space-y-2">
+                                    {resources
+                                        .filter(resource => resource.type === 'article' || !resource.type)
+                                        .map((resource) => (
+                                            <li key={resource._id}>
+                                                <a
+                                                    href={resource.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-amber-400 underline hover:text-amber-600 transition-colors"
+                                                >
+                                                    {resource.title}
+                                                </a>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* Videos Section */}
+                        {resources.filter(resource => resource.type === 'video').length > 0 && (
+                            <div>
+                                <h2 className="text-2xl font-semibold mb-4 text-amber-200 flex items-center gap-2">
+                                    Videos
+                                </h2>
+                                <ul className="list-disc ml-6 space-y-2">
+                                    {resources
+                                        .filter(resource => resource.type === 'video')
+                                        .map((resource) => (
+                                            <li key={resource._id}>
+                                                <a
+                                                    href={resource.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-amber-400 underline hover:text-amber-600 transition-colors"
+                                                >
+                                                    {resource.title}
+                                                </a>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* Books Section */}
+                        {resources.filter(resource => resource.type === 'book').length > 0 && (
+                            <div>
+                                <h2 className="text-2xl font-semibold mb-4 text-amber-200 flex items-center gap-2">
+                                    Books
+                                </h2>
+                                <ul className="list-disc ml-6 space-y-2">
+                                    {resources
+                                        .filter(resource => resource.type === 'book')
+                                        .map((resource) => (
+                                            <li key={resource._id}>
+                                                <a
+                                                    href={resource.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="text-amber-400 underline hover:text-amber-600 transition-colors"
+                                                >
+                                                    {resource.title}
+                                                </a>
+                                            </li>
+                                        ))
+                                    }
+                                </ul>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

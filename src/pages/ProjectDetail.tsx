@@ -62,6 +62,9 @@ export default function ProjectDetail() {
         <div className="p-8">
             <h1 className="text-4xl font-semibold">{project.title}</h1>
             <p className="mt-4 text-lg text-gray-500">{project.description}</p>
+            <p className="mt-4 text-sm text-gray-500">
+                Published on: {new Date(project.createdAt).toLocaleDateString('en-GB')}
+            </p>
             <hr className="my-6 border-gray-500" />
             <article className="mt-6 prose prose-invert prose-lg max-w-none">
                 <ReactMarkdown
@@ -137,9 +140,6 @@ export default function ProjectDetail() {
                     {project.content}
                 </ReactMarkdown>
             </article>
-            <p className="mt-4 text-sm text-gray-500">
-                Published on: {new Date(project.createdAt).toLocaleDateString('en-GB')}
-            </p>
         </div>
     );
 }
