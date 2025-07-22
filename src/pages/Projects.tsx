@@ -57,12 +57,12 @@ export default function Projects() {
         <div>
             <h1 className="text-4xl font-semibold">Projects</h1>
             <p> Some projects that I worked on and took the time to document. </p>
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {projects.map((project) => (
                     <Link
                         to={`/project/${project._id}`}
                         key={project._id}
-                        className="border p-4 shadow-lg hover:border-amber-400 transition duration-100"
+                        className="border-2 p-4 shadow-lg hover:border-amber-400 hover:scale-103 transition duration-100 bg-indigo-950"
                     >
                         <img
                             src={project.image || "./assets/garf.jpg"}

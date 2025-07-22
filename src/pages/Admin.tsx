@@ -157,7 +157,7 @@ export default function Admin() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                className="w-full px-3 py-2 bg-zinc-600 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100"
+                                className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100"
                                 placeholder="Enter admin password"
                             />
                         </div>
@@ -192,7 +192,7 @@ export default function Admin() {
                         setIsAuthenticated(false);
                         setPassword("");
                     }}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition-colors"
+                    className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white transition-colors"
                 >
                     Logout
                 </button>
@@ -200,33 +200,33 @@ export default function Admin() {
             
             {/* Content Type Selector */}
             <div className="mb-8">
-                <div className="flex space-x-4 bg-gray-800 rounded-lg p-1">
+                <div className="flex space-x-4 bg-amber-50 p-1">
                     <button
                         onClick={() => handleContentTypeChange('article')}
-                        className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                        className={`flex-1 py-2 px-4 font-medium transition-colors ${
                             contentType === 'article'
                                 ? 'bg-amber-600 text-white'
-                                : 'text-gray-400 hover:text-white'
+                                : 'text-indigo-950 hover:text-indigo-800'
                         }`}
                     >
                         Add Article
                     </button>
                     <button
                         onClick={() => handleContentTypeChange('project')}
-                        className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                        className={`flex-1 py-2 px-4 font-medium transition-colors ${
                             contentType === 'project'
                                 ? 'bg-amber-600 text-white'
-                                : 'text-gray-400 hover:text-white'
+                                : 'text-indigo-950 hover:text-indigo-800'
                         }`}
                     >
                         Add Project
                     </button>
                     <button
                         onClick={() => handleContentTypeChange('resource')}
-                        className={`flex-1 py-2 px-4 rounded-md font-medium transition-colors ${
+                        className={`flex-1 py-2 px-4 font-medium transition-colors ${
                             contentType === 'resource'
                                 ? 'bg-amber-600 text-white'
-                                : 'text-gray-400 hover:text-white'
+                                : 'text-indigo-950 hover:text-indigo-800'
                         }`}
                     >
                         Add Resource
@@ -234,13 +234,13 @@ export default function Admin() {
                 </div>
             </div>
 
-            <div className="bg-gray-800 p-6">
-                <h2 className="text-2xl font-semibold mb-6">
+            <div className="bg-amber-50 p-6">
+                <h2 className="text-2xl font-semibold mb-6 text-indigo-950">
                     Add New {contentType.charAt(0).toUpperCase() + contentType.slice(1)}
                 </h2>
                 
                 {message && (
-                    <div className={`mb-4 p-3 rounded ${
+                    <div className={`mb-4 p-3 ${
                         message.type === 'success' 
                             ? 'bg-green-600 text-green-100' 
                             : 'bg-red-600 text-red-100'
@@ -251,7 +251,7 @@ export default function Admin() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="title" className="block text-sm font-medium mb-2">
+                        <label htmlFor="title" className="block text-sm font-medium mb-2 text-indigo-900">
                             Title
                         </label>
                         <input
@@ -261,15 +261,15 @@ export default function Admin() {
                             value={contentType === 'resource' ? resourceData.title : formData.title}
                             onChange={handleInputChange}
                             required
-                            className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
-                            placeholder={`Enter ${contentType} title`}
+                            className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                            placeholder={`Enter ${contentType} title.`}
                         />
                     </div>
 
                     {contentType === 'resource' ? (
                         <>
                             <div>
-                                <label htmlFor="link" className="block text-sm font-medium mb-2">
+                                <label htmlFor="link" className="block text-sm font-medium mb-2 text-indigo-950">
                                     Link
                                 </label>
                                 <input
@@ -279,12 +279,12 @@ export default function Admin() {
                                     value={resourceData.link}
                                     onChange={handleInputChange}
                                     required
-                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                    className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100"
                                     placeholder="https://example.com/resource"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="type" className="block text-sm font-medium mb-2">
+                                <label htmlFor="type" className="block text-sm font-medium mb-2 text-indigo-950">
                                     Resource Type
                                 </label>
                                 <select
@@ -293,7 +293,7 @@ export default function Admin() {
                                     value={resourceData.type}
                                     onChange={(e) => setResourceData(prev => ({ ...prev, type: e.target.value as 'article' | 'video' | 'book' }))}
                                     required
-                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                    className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100"
                                 >
                                     <option value="article">Article</option>
                                     <option value="video">Video</option>
@@ -304,7 +304,7 @@ export default function Admin() {
                     ) : (
                         <>
                             <div>
-                                <label htmlFor="description" className="block text-sm font-medium mb-2">
+                                <label htmlFor="description" className="block text-sm font-medium mb-2 text-indigo-900">
                                     Description
                                 </label>
                                 <textarea
@@ -314,13 +314,13 @@ export default function Admin() {
                                     onChange={handleInputChange}
                                     required
                                     rows={3}
-                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
-                                    placeholder={`Enter ${contentType} description`}
+                                    className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
+                                    placeholder={`Enter ${contentType} description.`}
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="image" className="block text-sm font-medium mb-2">
+                                <label htmlFor="image" className="block text-sm font-medium mb-2 text-indigo-950">
                                     Image URL (Optional)
                                 </label>
                                 <input
@@ -329,13 +329,13 @@ export default function Admin() {
                                     name="image"
                                     value={formData.image}
                                     onChange={handleInputChange}
-                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                                    className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100"
                                     placeholder="https://example.com/image.jpg"
                                 />
                             </div>
 
                             <div>
-                                <label htmlFor="content" className="block text-sm font-medium mb-2">
+                                <label htmlFor="content" className="block text-sm font-medium mb-2 text-indigo-900">
                                     Content
                                 </label>
                                 <textarea
@@ -345,7 +345,7 @@ export default function Admin() {
                                     onChange={handleInputChange}
                                     required
                                     rows={15}
-                                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500 text-white resize-vertical"
+                                    className="w-full px-3 py-2 bg-indigo-950 focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-100 resize-vertical"
                                     placeholder={`Enter the full ${contentType} content.`}
                                 />
                             </div>
@@ -356,10 +356,10 @@ export default function Admin() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`w-full py-3 px-4 rounded-md font-semibold transition-colors ${
+                            className={`w-full py-3 px-4 font-semibold transition-colors ${
                                 isSubmitting
                                     ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                                    : 'bg-amber-600 hover:bg-amber-700 text-white'
+                                    : 'bg-amber-600 hover:bg-amber-700 text-amber-50'
                             }`}
                         >
                             {isSubmitting ? `Creating ${contentType}...` : `Create ${contentType.charAt(0).toUpperCase() + contentType.slice(1)}`}

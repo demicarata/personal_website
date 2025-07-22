@@ -58,12 +58,12 @@ export default function Blog() {
         <div>
             <h1 className="text-4xl font-semibold">Blog</h1>
             <p>Here you can find some of the things I wrote.</p>
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {articles.map((article) => (
                     <Link
                         to={`/article/${article._id}`}
                         key={article._id}
-                        className="border p-4 shadow-lg hover:border-amber-500 transition duration-100"
+                        className="border-2 p-4 shadow-lg hover:border-amber-500 hover:scale-103 transition duration-100 bg-indigo-950"
                     >
                         <img
                             src={article.image || "./assets/garf.jpg"}
